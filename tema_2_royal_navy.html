@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Undangan Pernikahan - Royal Navy</title>
+    <meta name="theme-color" content="#0f172a">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400..900;1,400..900&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&family=Sacramento&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>[x-cloak] { display: none !important; }</style>
+</head>
+<body class="bg-slate-950 font-sans antialiased text-slate-100 animate-fade-in" x-data="themeApp">
+
+    <audio id="bgMusic" loop>
+        <source src="https://assets.mixkit.co/music/preview/mixkit-beautiful-dream-dreamy-piano-and-strings-2311.mp3" type="audio/mp3">
+    </audio>
+
+    <!-- COVER SCREEN (ROYAL NAVY STYLE) -->
+    <section x-show="!isOpened" class="fixed inset-0 z-50 flex flex-col justify-between items-center text-center p-6 bg-cover bg-center transition-all duration-1000"
+        :style="'background-image: linear-gradient(to bottom, rgba(15,23,42,0.6), rgba(15,23,42,0.95)), url(' + db.photos.coverBg + ')'">
+        <div class="mt-8 flex flex-col items-center">
+            <div class="w-12 h-12 rounded-full border border-indigo-500/30 flex items-center justify-center text-indigo-400 mb-2">
+                <i data-lucide="sparkles" class="w-5 h-5"></i>
+            </div>
+            <span class="text-indigo-400 font-serif tracking-[0.4em] uppercase text-xs">Royal Wedding</span>
+        </div>
+        <div class="space-y-6">
+            <h1 class="text-6xl md:text-8xl font-cursive text-indigo-300 drop-shadow-xl" x-text="db.groom.nick + ' & ' + db.bride.nick"></h1>
+            <p class="text-slate-300 text-sm tracking-wide max-w-sm mx-auto">Bersama-sama mengukir takdir cinta mulia di bawah ridho-Nya.</p>
+            <div class="mt-8 p-6 bg-slate-900/80 backdrop-blur-md rounded-3xl border border-indigo-500/20 inline-block max-w-sm w-full shadow-2xl">
+                <span class="text-[10px] text-indigo-400 block uppercase tracking-widest mb-1.5 font-bold">Teruntuk Yth.</span>
+                <span class="text-xl font-bold text-white block font-serif" x-text="guestName"></span>
+            </div>
+        </div>
+        <div class="mb-12">
+            <button @click="openInvitation()" class="px-8 py-3.5 bg-indigo-600 hover:bg-indigo-700 text-white font-bold rounded-full shadow-2xl flex items-center gap-3 transition">
+                <i data-lucide="heart" class="w-4 h-4 text-rose-400 animate-ping"></i>
+                <span>Buka Undangan</span>
+            </button>
+        </div>
+    </section>
+
+    <!-- MAIN CONTENT (NAVY STYLE) -->
+    <main x-show="isOpened" x-cloak class="min-h-screen pb-24 bg-gradient-to-b from-slate-950 via-indigo-950/20 to-slate-950">
+        
+        <!-- SWITCH THEME CONTROLS -->
+        <div class="fixed top-4 right-4 z-40 flex gap-2">
+            <select @change="switchTheme($event.target.value)" class="bg-slate-900 text-white p-2 rounded-full shadow-lg text-xs font-semibold border border-indigo-500/30 focus:outline-none">
+                <option value="index.html">Classic Emerald</option>
+                <option value="theme2.html" selected>Royal Navy</option>
+                <option value="theme3.html">Minimalist Blush</option>
+                <option value="theme4.html">Rustic Warmth</option>
+                <option value="theme5.html">Vibrant Midnight</option>
+            </select>
+            <button @click="toggleMusic()" class="w-9 h-9 rounded-full bg-slate-900 shadow-lg flex items-center justify-center text-indigo-400 border border-indigo-500/30">
+                <i :data-lucide="musicPlaying ? 'music' : 'music-2'" class="w-4 h-4"></i>
+            </button>
+        </div>
+
+        <!-- INTRO DUO -->
+        <section class="py-24 text-center px-6 relative max-w-3xl mx-auto space-y-4">
+            <i data-lucide="heart" class="w-8 h-8 text-indigo-500 mx-auto opacity-60"></i>
+            <p class="text-lg md:text-xl leading-relaxed text-indigo-200/80 font-serif italic">"Menyatukan dua jiwa, melaraskan impian, dalam naungan rahmat dan kebahagiaan abadi."</p>
+        </section>
+
+        <!-- MEMPELAI DETAIL -->
+        <section class="max-w-5xl mx-auto px-6 py-8 grid md:grid-cols-2 gap-10">
+            <!-- Pria -->
+            <div class="bg-slate-900/80 rounded-3xl p-8 border border-indigo-500/20 shadow-2xl text-center flex flex-col items-center">
+                <img :src="db.photos.groom" class="w-44 h-44 rounded-full object-cover border-4 border-indigo-500 mb-6">
+                <h4 class="text-2xl font-serif font-bold text-indigo-200" x-text="db.groom.full"></h4>
+                <p class="text-indigo-400 font-medium text-xs mt-1" x-text="db.groom.ig"></p>
+                <p class="text-xs text-slate-400 mt-4 leading-relaxed">Putra pertama dari:<br><strong class="text-slate-200" x-text="db.groom.father + ' & ' + db.groom.mother"></strong></p>
+            </div>
+            <!-- Wanita -->
+            <div class="bg-slate-900/80 rounded-3xl p-8 border border-indigo-500/20 shadow-2xl text-center flex flex-col items-center">
+                <img :src="db.photos.bride" class="w-44 h-44 rounded-full object-cover border-4 border-indigo-500 mb-6">
+                <h4 class="text-2xl font-serif font-bold text-indigo-200" x-text="db.bride.full"></h4>
+                <p class="text-indigo-400 font-medium text-xs mt-1" x-text="db.bride.ig"></p>
+                <p class="text-xs text-slate-400 mt-4 leading-relaxed">Putri kedua dari:<br><strong class="text-slate-200" x-text="db.bride.father + ' & ' + db.bride.mother"></strong></p>
+            </div>
+        </section>
+
+        <!-- ACARA -->
+        <section class="max-w-4xl mx-auto px-6 py-12">
+            <div class="bg-slate-900 border border-indigo-500/20 rounded-[2.5rem] p-8 md:p-12 shadow-2xl text-center space-y-8">
+                <span class="text-indigo-400 text-xs font-bold uppercase tracking-widest">Waktu Pernikahan</span>
+                <h3 class="text-3xl font-serif text-white" x-text="db.event.dateFormatted"></h3>
+                <div class="grid md:grid-cols-2 gap-8 border-t border-slate-800 pt-8">
+                    <div class="space-y-2 p-6 bg-slate-950/40 rounded-2xl">
+                        <h4 class="font-bold text-lg text-indigo-300">Akad Nikah</h4>
+                        <p class="text-sm" x-text="'Pukul: ' + db.event.akadTime"></p>
+                        <p class="font-semibold" x-text="db.event.akadVenue"></p>
+                        <p class="text-xs text-slate-400" x-text="db.event.akadAddress"></p>
+                    </div>
+                    <div class="space-y-2 p-6 bg-slate-950/40 rounded-2xl">
+                        <h4 class="font-bold text-lg text-indigo-300">Resepsi</h4>
+                        <p class="text-sm" x-text="'Pukul: ' + db.event.resepsiTime"></p>
+                        <p class="font-semibold" x-text="db.event.resepsiVenue"></p>
+                        <p class="text-xs text-slate-400" x-text="db.event.resepsiAddress"></p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECRET ADMINISTRATIVE GATEWAY -->
+        <footer class="py-12 text-center text-xs text-slate-600">
+            <p>Pernikahan Suci Modern &copy; <span @dblclick="goToAdmin()" class="font-bold cursor-pointer hover:text-indigo-400">2026</span></p>
+        </footer>
+    </main>
+
+    <script>
+        document.addEventListener('alpine:init', () => {
+            Alpine.data('themeApp', () => ({
+                isOpened: false,
+                guestName: 'Tamu Istimewa',
+                musicPlaying: false,
+                db: {},
+                init() {
+                    const saved = localStorage.getItem('wedding_custom_db');
+                    if (saved) this.db = JSON.parse(saved);
+                    const urlParams = new URLSearchParams(window.location.search);
+                    const toParam = urlParams.get('to');
+                    if (toParam) this.guestName = decodeURIComponent(toParam);
+                    setTimeout(() => lucide.createIcons(), 100);
+                },
+                openInvitation() {
+                    this.isOpened = true;
+                    const audio = document.getElementById('bgMusic');
+                    if (audio) {
+                        audio.play().then(() => this.musicPlaying = true).catch(e => console.log('Autoplay blocked'));
+                    }
+                },
+                toggleMusic() {
+                    const audio = document.getElementById('bgMusic');
+                    if (audio) {
+                        if (this.musicPlaying) { audio.pause(); } else { audio.play(); }
+                        this.musicPlaying = !this.musicPlaying;
+                    }
+                },
+                switchTheme(dest) {
+                    window.location.href = dest + '?to=' + encodeURIComponent(this.guestName);
+                },
+                goToAdmin() {
+                    window.location.href = 'admin.html';
+                }
+            }));
+        });
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+</body>
+</html>

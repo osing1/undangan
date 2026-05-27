@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Undangan Pernikahan - Rustic Warmth</title>
+    <meta name="theme-color" content="#78350f">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400..900;1,400..900&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&family=Sacramento&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>[x-cloak] { display: none !important; }</style>
+</head>
+<body class="bg-amber-50/40 font-sans antialiased text-slate-700" x-data="themeApp">
+
+    <audio id="bgMusic" loop>
+        <source src="https://assets.mixkit.co/music/preview/mixkit-beautiful-dream-dreamy-piano-and-strings-2311.mp3" type="audio/mp3">
+    </audio>
+
+    <!-- COVER SCREEN (RUSTIC COZY STYLE) -->
+    <section x-show="!isOpened" class="fixed inset-0 z-50 flex flex-col justify-between items-center text-center p-6 bg-cover bg-center transition-all duration-1000"
+        :style="'background-image: linear-gradient(to bottom, rgba(120,53,4,0.5), rgba(120,53,4,0.9)), url(' + db.photos.coverBg + ')'">
+        <div class="mt-8">
+            <span class="text-amber-300 font-serif tracking-[0.25em] uppercase text-xs">Warm Boho Wedding</span>
+        </div>
+        <div class="space-y-4">
+            <h1 class="text-5xl md:text-7xl font-cursive text-amber-200" x-text="db.groom.nick + ' & ' + db.bride.nick"></h1>
+            <p class="text-amber-100/90 text-sm max-w-sm mx-auto tracking-wide">Lembaran baru petualangan cinta sejati yang bersahaja dimulai.</p>
+            <div class="mt-8 p-6 bg-amber-950/60 rounded-3xl border border-amber-500/20 inline-block max-w-sm w-full">
+                <span class="text-[10px] text-amber-300 block uppercase tracking-widest mb-1.5 font-bold">Teruntuk Yth.</span>
+                <span class="text-xl font-bold text-white block font-serif" x-text="guestName"></span>
+            </div>
+        </div>
+        <div class="mb-12">
+            <button @click="openInvitation()" class="px-8 py-3.5 bg-amber-700 hover:bg-amber-800 text-white font-bold rounded-full shadow-lg flex items-center gap-3 transition">
+                <i data-lucide="compass" class="w-4 h-4 animate-spin-slow"></i>
+                <span>Buka Undangan</span>
+            </button>
+        </div>
+    </section>
+
+    <!-- MAIN CONTENT (RUSTIC) -->
+    <main x-show="isOpened" x-cloak class="min-h-screen pb-24 bg-gradient-to-b from-amber-50/40 via-orange-50/20 to-amber-100/30">
+        
+        <!-- SWITCH THEME CONTROLS -->
+        <div class="fixed top-4 right-4 z-40 flex gap-2">
+            <select @change="switchTheme($event.target.value)" class="bg-amber-900 text-amber-100 p-2 rounded-full shadow-lg text-xs font-semibold border border-amber-800 focus:outline-none">
+                <option value="index.html">Classic Emerald</option>
+                <option value="theme2.html">Royal Navy</option>
+                <option value="theme3.html">Minimalist Blush</option>
+                <option value="theme4.html" selected>Rustic Warmth</option>
+                <option value="theme5.html">Vibrant Midnight</option>
+            </select>
+            <button @click="toggleMusic()" class="w-9 h-9 rounded-full bg-amber-900 shadow-lg flex items-center justify-center text-amber-200 border border-amber-800">
+                <i :data-lucide="musicPlaying ? 'music' : 'music-2'" class="w-4 h-4"></i>
+            </button>
+        </div>
+
+        <section class="py-24 text-center px-6">
+            <span class="text-xs uppercase tracking-widest text-amber-800 font-bold block mb-4">Bohemian Blessing</span>
+            <p class="max-w-xl mx-auto text-sm text-amber-900/80 leading-relaxed font-serif italic">"Dari sekian banyak tempat di belahan bumi, langkah kaki kami akhirnya bersua di titik kehangatan yang sama."</p>
+        </section>
+
+        <!-- MEMPELAI CARDS -->
+        <section class="max-w-5xl mx-auto px-6 py-4 grid md:grid-cols-2 gap-10">
+            <!-- Pria -->
+            <div class="bg-white/70 rounded-3xl p-8 border border-amber-200 shadow-md text-center flex flex-col items-center">
+                <img :src="db.photos.groom" class="w-40 h-40 rounded-3xl object-cover border-4 border-amber-700/20 mb-6">
+                <h4 class="text-2xl font-serif font-bold text-amber-900" x-text="db.groom.full"></h4>
+                <p class="text-amber-700 font-semibold text-xs mt-1" x-text="db.groom.ig"></p>
+                <p class="text-xs text-slate-500 mt-4 leading-relaxed">Putra pertama pasangan:<br><strong class="text-amber-800" x-text="db.groom.father + ' & ' + db.groom.mother"></strong></p>
+            </div>
+            <!-- Wanita -->
+            <div class="bg-white/70 rounded-3xl p-8 border border-amber-200 shadow-md text-center flex flex-col items-center">
+                <img :src="db.photos.bride" class="w-40 h-40 rounded-3xl object-cover border-4 border-amber-700/20 mb-6">
+                <h4 class="text-2xl font-serif font-bold text-amber-900" x-text="db.bride.full"></h4>
+                <p class="text-amber-700 font-semibold text-xs mt-1" x-text="db.bride.ig"></p>
+                <p class="text-xs text-slate-500 mt-4 leading-relaxed">Putri kedua pasangan:<br><strong class="text-amber-800" x-text="db.bride.father + ' & ' + db.bride.mother"></strong></p>
+            </div>
+        </section>
+
+        <!-- ACARA -->
+        <section class="max-w-4xl mx-auto px-6 py-12">
+            <div class="bg-amber-950 text-amber-100 rounded-[2rem] p-8 md:p-12 shadow-xl space-y-8">
+                <div class="text-center space-y-2">
+                    <span class="text-amber-400 text-xs font-bold uppercase tracking-widest">Waktu Acara</span>
+                    <h3 class="text-3xl font-serif" x-text="db.event.dateFormatted"></h3>
+                </div>
+                <div class="grid md:grid-cols-2 gap-8 border-t border-amber-900 pt-8">
+                    <div class="space-y-2 p-6 bg-amber-900/30 rounded-2xl">
+                        <h4 class="font-bold text-lg text-amber-300">Akad Nikah</h4>
+                        <p class="text-sm" x-text="'Jam: ' + db.event.akadTime"></p>
+                        <p class="font-semibold text-white" x-text="db.event.akadVenue"></p>
+                        <p class="text-xs text-amber-200/80" x-text="db.event.akadAddress"></p>
+                    </div>
+                    <div class="space-y-2 p-6 bg-amber-900/30 rounded-2xl">
+                        <h4 class="font-bold text-lg text-amber-300">Resepsi</h4>
+                        <p class="text-sm" x-text="'Jam: ' + db.event.resepsiTime"></p>
+                        <p class="font-semibold text-white" x-text="db.event.resepsiVenue"></p>
+                        <p class="text-xs text-amber-200/80" x-text="db.event.resepsiAddress"></p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- RUSTIC FOOTER -->
+        <footer class="py-12 text-center text-xs text-amber-800/60">
+            <p>Rustic Warm Celebration &copy; <span @dblclick="goToAdmin()" class="font-bold cursor-pointer hover:text-amber-700">2026</span></p>
+        </footer>
+    </main>
+
+    <script>
+        document.addEventListener('alpine:init', () => {
+            Alpine.data('themeApp', () => ({
+                isOpened: false,
+                guestName: 'Tamu Istimewa',
+                musicPlaying: false,
+                db: {},
+                init() {
+                    const saved = localStorage.getItem('wedding_custom_db');
+                    if (saved) this.db = JSON.parse(saved);
+                    const urlParams = new URLSearchParams(window.location.search);
+                    const toParam = urlParams.get('to');
+                    if (toParam) this.guestName = decodeURIComponent(toParam);
+                    setTimeout(() => lucide.createIcons(), 100);
+                },
+                openInvitation() {
+                    this.isOpened = true;
+                    const audio = document.getElementById('bgMusic');
+                    if (audio) {
+                        audio.play().then(() => this.musicPlaying = true).catch(e => console.log('Autoplay blocked'));
+                    }
+                },
+                toggleMusic() {
+                    const audio = document.getElementById('bgMusic');
+                    if (audio) {
+                        if (this.musicPlaying) { audio.pause(); } else { audio.play(); }
+                        this.musicPlaying = !this.musicPlaying;
+                    }
+                },
+                switchTheme(dest) {
+                    window.location.href = dest + '?to=' + encodeURIComponent(this.guestName);
+                },
+                goToAdmin() {
+                    window.location.href = 'admin.html';
+                }
+            }));
+        });
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+</body>
+</html>
