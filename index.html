@@ -9,7 +9,7 @@
     <meta name="theme-color" content="#0f172a">
     <meta name="description" content="Undangan Pernikahan Online Mewah, Elegan, dan Modern">
     
-    <!-- -->
+    <!-- OpenGraph (WhatsApp & Telegram Preview) -->
     <meta property="og:title" content="Undangan Pernikahan Aris & Amalia">
     <meta property="og:description" content="Minggu, 18 Oktober 2026 - Kami mengundang Anda untuk menghadiri hari bahagia pernikahan kami.">
     <meta property="og:image" content="https://images.unsplash.com/photo-1519741497674-611481863552?w=600&fit=crop">
@@ -336,7 +336,7 @@
             </div>
         </section>
 
-        <!-- -->
+        <!-- SECTION 4: GALERI (Dengan Slider Slide & Lightbox) -->
         <section id="galeri" class="py-20 px-6 max-w-5xl mx-auto scroll-mt-10" x-data="{ currentSlide: 0 }">
             <div class="text-center space-y-3 mb-10">
                 <h3 class="text-3xl md:text-4xl font-serif text-slate-800 dark:text-white font-semibold">Galeri Momen Bahagia</h3>
@@ -785,7 +785,7 @@
                     }, 3500);
                 },
 
-                //                sanitizeHTML(str) {
+                sanitizeHTML(str) {
                     const temp = document.createElement('div');
                     temp.textContent = str;
                     return temp.innerHTML;
