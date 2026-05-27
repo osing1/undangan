@@ -76,12 +76,14 @@
         
         <!-- THEME SELECTOR & MUSIC CONTROLS (Floating) -->
         <div class="fixed top-4 right-4 z-40 flex gap-2">
+            <!-- Nilai value disesuaikan dengan nama file asli di repositori GitHub Anda -->
             <select @change="switchTheme($event.target.value)" class="bg-white/90 p-2 rounded-full shadow-lg text-xs font-semibold border border-emerald-200 focus:outline-none cursor-pointer">
-                <option value="index.html" selected>Classic Emerald</option>
-                <option value="theme2.html">Royal Navy</option>
-                <option value="theme3.html">Minimalist Blush</option>
-                <option value="theme4.html">Rustic Warmth</option>
-                <option value="theme5.html">Vibrant Midnight</option>
+                <option value="index.html" selected>Classic Emerald (Home)</option>
+                <option value="tema_1_classic_emerald.html">Classic Emerald</option>
+                <option value="tema_2_royal_navy.html">Royal Navy</option>
+                <option value="tema_3_minimalist_blush.html">Minimalist Blush</option>
+                <option value="tema_4_rustic_warmth.html">Rustic Warmth</option>
+                <option value="tema_5_vibrant_midnight.html">Vibrant Midnight</option>
             </select>
             <button @click="toggleMusic()" class="w-9 h-9 rounded-full bg-white/90 shadow-lg flex items-center justify-center text-emerald-800 border border-emerald-200">
                 <i :data-lucide="musicPlaying ? 'music' : 'music-2'" class="w-4 h-4"></i>
@@ -145,6 +147,7 @@
         <!-- FOOTER & SECRET GATEWAY -->
         <footer class="py-12 text-center text-xs text-slate-400">
             <p>Sampai jumpa di hari bahagia pernikahan kami.</p>
+            <!-- Klik ganda pada simbol © akan mengarah ke panel_admin_crud.html sesuai repositori Anda -->
             <p class="mt-2">Undangan Online <span @dblclick="goToAdmin()" class="font-bold cursor-pointer hover:text-amber-600 transition-colors duration-200">&copy;</span> 2026. All rights reserved.</p>
         </footer>
     </main>
@@ -156,7 +159,7 @@
                 guestName: 'Tamu Istimewa',
                 musicPlaying: false,
                 
-                // SKEMA DATABASE LENGKAP DEFAULT (Mencegah Undefined Error saat LocalStorage kosong)
+                // SKEMA DATABASE LENGKAP DEFAULT
                 db: {
                     groom: { nick: 'Aris', full: 'Aris Setiawan, S.Kom', ig: '@aris_setiawan', father: 'Bpk. Bambang Setiawan', mother: 'Ibu Ratna Ningsih' },
                     bride: { nick: 'Amalia', full: 'Amalia Rahma, S.E', ig: '@amaliarhma', father: 'Bpk. H. Ahmad Fauzi', mother: 'Ibu Hj. Siti Aminah' },
@@ -168,7 +171,6 @@
                         const saved = localStorage.getItem('wedding_custom_db');
                         if (saved) {
                             const parsed = JSON.parse(saved);
-                            // Deep merge untuk memastikan tidak ada kunci database yang hilang
                             this.db = {
                                 groom: { ...this.db.groom, ...parsed.groom },
                                 bride: { ...this.db.bride, ...parsed.bride },
@@ -209,12 +211,13 @@
                     window.location.href = dest + '?to=' + encodeURIComponent(this.guestName);
                 },
                 goToAdmin() {
-                    window.location.href = 'admin.html';
+                    // Diarahkan secara presisi ke berkas panel_admin_crud.html
+                    window.location.href = 'panel_admin_crud.html';
                 }
             }));
         });
     </script>
     <!-- Alpine JS Engine Core -->
-    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
 </body>
 </html>
