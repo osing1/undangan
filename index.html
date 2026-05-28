@@ -3,152 +3,115 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Undangan Pernikahan - Classic Emerald</title>
-    
-    <!-- Meta Theme Color & PWA Support -->
-    <meta name="theme-color" content="#064e3b">
+    <title>Undangan Pernikahan - Royal Navy</title>
+    <meta name="theme-color" content="#0f172a">
     <link rel="manifest" href="manifest.json">
-    <link rel="apple-touch-icon" href="https://images.unsplash.com/photo-1515934751635-c81c6bc9a2d8?w=192&h=192&fit=crop">
-
-    <!-- Fonts -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400..900;1,400..900&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&family=Sacramento&display=swap" rel="stylesheet">
-    
-    <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
-    <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    fontFamily: {
-                        serif: ['Playfair Display', 'serif'],
-                        sans: ['Plus Jakarta Sans', 'sans-serif'],
-                        cursive: ['Sacramento', 'cursive'],
-                    }
-                }
-            }
-        }
-    </script>
-    
-    <!-- Lucide Icons -->
     <script src="https://unpkg.com/lucide@latest"></script>
-    
-    <style>
-        [x-cloak] { display: none !important; }
-        .bg-blur-card {
-            backdrop-filter: blur(12px);
-            background-color: rgba(255, 255, 255, 0.9);
-        }
-    </style>
+    <style>[x-cloak] { display: none !important; }</style>
 </head>
-<body class="bg-emerald-950 font-sans antialiased text-slate-800" x-data="themeApp">
+<body class="bg-slate-950 font-sans antialiased text-slate-100" x-data="themeApp">
 
-    <!-- AUDIO PLAYER -->
     <audio id="bgMusic" loop>
         <source src="https://assets.mixkit.co/music/preview/mixkit-beautiful-dream-dreamy-piano-and-strings-2311.mp3" type="audio/mp3">
     </audio>
 
     <!-- COVER SCREEN -->
     <section x-show="!isOpened" class="fixed inset-0 z-50 flex flex-col justify-between items-center text-center p-6 bg-cover bg-center transition-all duration-1000"
-        :style="'background-image: linear-gradient(to bottom, rgba(6,78,59,0.55), rgba(6,78,59,0.9)), url(' + db.photos.coverBg + ')'">
-        <div class="mt-8">
-            <span class="text-amber-400 font-serif tracking-[0.3em] uppercase text-xs">The Wedding Celebration</span>
+        :style="'background-image: linear-gradient(to bottom, rgba(15,23,42,0.6), rgba(15,23,42,0.95)), url(' + db.photos.coverBg + ')'">
+        <div class="mt-8 flex flex-col items-center">
+            <div class="w-12 h-12 rounded-full border border-indigo-500/30 flex items-center justify-center text-indigo-400 mb-2">
+                <i data-lucide="sparkles" class="w-5 h-5"></i>
+            </div>
+            <span class="text-indigo-400 font-serif tracking-[0.4em] uppercase text-xs">Royal Wedding</span>
         </div>
-        <div class="space-y-4">
-            <h1 class="text-6xl md:text-8xl font-cursive text-amber-300" x-text="db.groom.nick + ' & ' + db.bride.nick"></h1>
-            <p class="text-emerald-100 text-sm max-w-md mx-auto">Kami mengundang Anda untuk merayakan momentum istimewa pernikahan kami.</p>
-            <div class="mt-6 p-5 bg-emerald-900/60 backdrop-blur-md rounded-2xl border border-emerald-500/30 inline-block max-w-sm w-full shadow-xl">
-                <span class="text-[10px] text-emerald-300 block uppercase tracking-widest mb-1">Kepada Yth.</span>
-                <span class="text-lg font-bold text-white block font-serif" x-text="guestName">Tamu Undangan Istimewa</span>
+        <div class="space-y-6">
+            <h1 class="text-6xl md:text-8xl font-cursive text-indigo-300 drop-shadow-xl" x-text="db.groom.nick + ' & ' + db.bride.nick"></h1>
+            <p class="text-slate-300 text-sm tracking-wide max-w-sm mx-auto">Bersama-sama mengukir takdir cinta mulia di bawah ridho-Nya.</p>
+            <div class="mt-8 p-6 bg-slate-900/80 backdrop-blur-md rounded-3xl border border-indigo-500/20 inline-block max-w-sm w-full shadow-2xl">
+                <span class="text-[10px] text-indigo-400 block uppercase tracking-widest mb-1.5 font-bold">Teruntuk Yth.</span>
+                <span class="text-xl font-bold text-white block font-serif" x-text="guestName"></span>
             </div>
         </div>
         <div class="mb-12">
-            <button @click="openInvitation()" class="px-8 py-3.5 bg-amber-500 hover:bg-amber-600 text-emerald-950 font-bold rounded-full shadow-lg flex items-center gap-3 transition transform hover:scale-105 duration-300">
-                <i data-lucide="mail-open" class="w-4 h-4"></i>
+            <button @click="openInvitation()" class="px-8 py-3.5 bg-indigo-600 hover:bg-indigo-700 text-white font-bold rounded-full shadow-2xl flex items-center gap-3 transition">
+                <i data-lucide="heart" class="w-4 h-4 text-rose-400"></i>
                 <span>Buka Undangan</span>
             </button>
         </div>
     </section>
 
     <!-- MAIN CONTENT -->
-    <main x-show="isOpened" x-cloak class="min-h-screen pb-24 bg-gradient-to-b from-emerald-50 via-white to-amber-50">
+    <main x-show="isOpened" x-cloak class="min-h-screen pb-24 bg-gradient-to-b from-slate-950 via-indigo-950/20 to-slate-950">
         
-        <!-- THEME SELECTOR & MUSIC CONTROLS (Floating) -->
+        <!-- SWITCH THEME CONTROLS -->
         <div class="fixed top-4 right-4 z-40 flex gap-2">
-            <!-- Nilai value disesuaikan dengan nama file asli di repositori GitHub Anda -->
-            <select @change="switchTheme($event.target.value)" class="bg-white/90 p-2 rounded-full shadow-lg text-xs font-semibold border border-emerald-200 focus:outline-none cursor-pointer">
-                <option value="index.html" selected>Classic Emerald (Home)</option>
+            <select @change="switchTheme($event.target.value)" class="bg-slate-900 text-white p-2 rounded-full shadow-lg text-xs font-semibold border border-indigo-500/30 focus:outline-none cursor-pointer">
+                <option value="index.html">Classic Emerald (Home)</option>
                 <option value="tema_1_classic_emerald.html">Classic Emerald</option>
-                <option value="tema_2_royal_navy.html">Royal Navy</option>
+                <option value="tema_2_royal_navy.html" selected>Royal Navy</option>
                 <option value="tema_3_minimalist_blush.html">Minimalist Blush</option>
                 <option value="tema_4_rustic_warmth.html">Rustic Warmth</option>
                 <option value="tema_5_vibrant_midnight.html">Vibrant Midnight</option>
             </select>
-            <button @click="toggleMusic()" class="w-9 h-9 rounded-full bg-white/90 shadow-lg flex items-center justify-center text-emerald-800 border border-emerald-200">
+            <button @click="toggleMusic()" class="w-9 h-9 rounded-full bg-slate-900 shadow-lg flex items-center justify-center text-indigo-400 border border-indigo-500/30">
                 <i :data-lucide="musicPlaying ? 'music' : 'music-2'" class="w-4 h-4"></i>
             </button>
         </div>
 
-        <!-- HEADER BANNER -->
-        <section class="py-24 text-center px-6 relative overflow-hidden">
-            <div class="w-20 h-20 border-t-2 border-l-2 border-emerald-700 rounded-tl-xl absolute top-6 left-6 opacity-40"></div>
-            <div class="w-20 h-20 border-b-2 border-r-2 border-emerald-700 rounded-br-xl absolute bottom-6 right-6 opacity-40"></div>
-            <span class="text-emerald-700 font-semibold tracking-wider text-xs block uppercase mb-3">Maha Suci Allah SWT</span>
-            <p class="max-w-xl mx-auto text-sm text-slate-600 italic">"Menciptakan pasangan-pasangan untukmu dari jenismu sendiri agar kamu merasa tenteram dan damai..."</p>
+        <section class="py-24 text-center px-6 relative max-w-3xl mx-auto space-y-4">
+            <i data-lucide="heart" class="w-8 h-8 text-indigo-500 mx-auto opacity-60"></i>
+            <p class="text-lg md:text-xl leading-relaxed text-indigo-200/80 font-serif italic" x-text="db.event.quote || 'Menyatukan dua jiwa, melaraskan impian, dalam naungan rahmat dan kebahagiaan abadi.'"></p>
         </section>
 
-        <!-- MEMPELAI SECTION -->
-        <section class="max-w-5xl mx-auto px-6 py-12 grid md:grid-cols-2 gap-10">
+        <!-- MEMPELAI DETAIL -->
+        <section class="max-w-5xl mx-auto px-6 py-8 grid md:grid-cols-2 gap-10">
             <!-- Pria -->
-            <div class="bg-white rounded-3xl p-8 border border-emerald-100 shadow-xl text-center flex flex-col items-center">
-                <div class="w-40 h-40 rounded-full overflow-hidden border-4 border-amber-500/20 mb-6">
+            <div class="bg-slate-900/80 rounded-3xl p-8 border border-indigo-500/20 shadow-2xl text-center flex flex-col items-center">
+                <div class="w-44 h-44 rounded-full overflow-hidden border-4 border-indigo-500 mb-6">
                     <img :src="db.photos.groom" class="w-full h-full object-cover">
                 </div>
-                <h4 class="text-2xl font-serif font-bold text-emerald-900" x-text="db.groom.full"></h4>
-                <p class="text-amber-600 font-medium text-xs mt-1" x-text="db.groom.ig"></p>
-                <p class="text-xs text-slate-500 mt-4 leading-relaxed">Putra tercinta dari:<br><strong class="text-slate-700" x-text="db.groom.father + ' & ' + db.groom.mother"></strong></p>
+                <h4 class="text-2xl font-serif font-bold text-indigo-200" x-text="db.groom.full"></h4>
+                <p class="text-indigo-400 font-medium text-xs mt-1" x-text="db.groom.ig"></p>
+                <p class="text-xs text-slate-400 mt-4 leading-relaxed">Putra pertama dari:<br><strong class="text-slate-200" x-text="db.groom.father + ' & ' + db.groom.mother"></strong></p>
             </div>
             <!-- Wanita -->
-            <div class="bg-white rounded-3xl p-8 border border-emerald-100 shadow-xl text-center flex flex-col items-center">
-                <div class="w-40 h-40 rounded-full overflow-hidden border-4 border-amber-500/20 mb-6">
+            <div class="bg-slate-900/80 rounded-3xl p-8 border border-indigo-500/20 shadow-2xl text-center flex flex-col items-center">
+                <div class="w-44 h-44 rounded-full overflow-hidden border-4 border-indigo-500 mb-6">
                     <img :src="db.photos.bride" class="w-full h-full object-cover">
                 </div>
-                <h4 class="text-2xl font-serif font-bold text-emerald-900" x-text="db.bride.full"></h4>
-                <p class="text-amber-600 font-medium text-xs mt-1" x-text="db.bride.ig"></p>
-                <p class="text-xs text-slate-500 mt-4 leading-relaxed">Putri tercinta dari:<br><strong class="text-slate-700" x-text="db.bride.father + ' & ' + db.bride.mother"></strong></p>
+                <h4 class="text-2xl font-serif font-bold text-indigo-200" x-text="db.bride.full"></h4>
+                <p class="text-indigo-400 font-medium text-xs mt-1" x-text="db.bride.ig"></p>
+                <p class="text-xs text-slate-400 mt-4 leading-relaxed">Putri kedua dari:<br><strong class="text-slate-200" x-text="db.bride.father + ' & ' + db.bride.mother"></strong></p>
             </div>
         </section>
 
-        <!-- JADWAL ACARA -->
+        <!-- ACARA -->
         <section class="max-w-4xl mx-auto px-6 py-12">
-            <div class="bg-emerald-900 text-white rounded-3xl p-8 md:p-12 shadow-2xl space-y-8">
-                <div class="text-center space-y-2">
-                    <span class="text-amber-400 text-xs font-bold uppercase tracking-widest">Waktu Pernikahan</span>
-                    <h3 class="text-3xl font-serif text-amber-200" x-text="db.event.dateFormatted"></h3>
-                </div>
-                <div class="grid md:grid-cols-2 gap-8 border-t border-emerald-800 pt-8">
-                    <div class="space-y-2">
-                        <h4 class="font-bold text-lg text-amber-300">Akad Nikah</h4>
+            <div class="bg-slate-900 border border-indigo-500/20 rounded-[2.5rem] p-8 md:p-12 shadow-2xl text-center space-y-8">
+                <span class="text-indigo-400 text-xs font-bold uppercase tracking-widest">Waktu Pernikahan</span>
+                <h3 class="text-3xl font-serif text-white" x-text="db.event.dateFormatted"></h3>
+                <div class="grid md:grid-cols-2 gap-8 border-t border-slate-800 pt-8">
+                    <div class="space-y-2 p-6 bg-slate-950/40 rounded-2xl">
+                        <h4 class="font-bold text-lg text-indigo-300">Akad Nikah</h4>
                         <p class="text-sm" x-text="'Pukul: ' + db.event.akadTime"></p>
-                        <p class="font-semibold" x-text="db.event.akadVenue"></p>
-                        <p class="text-xs text-emerald-200" x-text="db.event.akadAddress"></p>
+                        <p class="font-semibold text-white" x-text="db.event.akadVenue"></p>
+                        <p class="text-xs text-slate-400" x-text="db.event.akadAddress"></p>
                     </div>
-                    <div class="space-y-2">
-                        <h4 class="font-bold text-lg text-amber-300">Resepsi</h4>
+                    <div class="space-y-2 p-6 bg-slate-950/40 rounded-2xl">
+                        <h4 class="font-bold text-lg text-indigo-300">Resepsi</h4>
                         <p class="text-sm" x-text="'Pukul: ' + db.event.resepsiTime"></p>
-                        <p class="font-semibold" x-text="db.event.resepsiVenue"></p>
-                        <p class="text-xs text-emerald-200" x-text="db.event.resepsiAddress"></p>
+                        <p class="font-semibold text-white" x-text="db.event.resepsiVenue"></p>
+                        <p class="text-xs text-slate-400" x-text="db.event.resepsiAddress"></p>
                     </div>
                 </div>
             </div>
         </section>
 
-        <!-- FOOTER & SECRET GATEWAY -->
-        <footer class="py-12 text-center text-xs text-slate-400">
-            <p>Sampai jumpa di hari bahagia pernikahan kami.</p>
-            <!-- Klik ganda pada simbol © akan mengarah ke panel_admin_crud.html sesuai repositori Anda -->
-            <p class="mt-2">Undangan Online <span @dblclick="goToAdmin()" class="font-bold cursor-pointer hover:text-amber-600 transition-colors duration-200">&copy;</span> 2026. All rights reserved.</p>
+        <!-- FOOTER -->
+        <footer class="py-12 text-center text-xs text-slate-650">
+            <p>Pernikahan Suci Modern &copy; <span @dblclick="goToAdmin()" class="font-bold cursor-pointer hover:text-indigo-400">2026</span></p>
         </footer>
     </main>
 
@@ -158,8 +121,6 @@
                 isOpened: false,
                 guestName: 'Tamu Istimewa',
                 musicPlaying: false,
-                
-                // SKEMA DATABASE LENGKAP DEFAULT
                 db: {
                     groom: { nick: 'Aris', full: 'Aris Setiawan, S.Kom', ig: '@aris_setiawan', father: 'Bpk. Bambang Setiawan', mother: 'Ibu Ratna Ningsih' },
                     bride: { nick: 'Amalia', full: 'Amalia Rahma, S.E', ig: '@amaliarhma', father: 'Bpk. H. Ahmad Fauzi', mother: 'Ibu Hj. Siti Aminah' },
@@ -177,27 +138,20 @@
                                 event: { ...this.db.event, ...parsed.event },
                                 photos: { ...this.db.photos, ...parsed.photos }
                             };
-                        } else {
-                            localStorage.setItem('wedding_custom_db', JSON.stringify(this.db));
                         }
-                    } catch (e) {
-                        console.error("Database gagal termuat, menggunakan cadangan offline.", e);
+                    } catch(e) {
+                        console.error(e);
                     }
-
-                    // Parsing nama tamu
                     const urlParams = new URLSearchParams(window.location.search);
                     const toParam = urlParams.get('to');
                     if (toParam) this.guestName = decodeURIComponent(toParam);
-                    
-                    setTimeout(() => {
-                        if (typeof lucide !== 'undefined') lucide.createIcons();
-                    }, 150);
+                    setTimeout(() => { if (typeof lucide !== 'undefined') lucide.createIcons(); }, 150);
                 },
                 openInvitation() {
                     this.isOpened = true;
                     const audio = document.getElementById('bgMusic');
                     if (audio) {
-                        audio.play().then(() => this.musicPlaying = true).catch(e => console.log('Autoplay ditahan oleh kebijakan browser.'));
+                        audio.play().then(() => this.musicPlaying = true).catch(e => console.log('Autoplay blocked'));
                     }
                 },
                 toggleMusic() {
@@ -211,13 +165,11 @@
                     window.location.href = dest + '?to=' + encodeURIComponent(this.guestName);
                 },
                 goToAdmin() {
-                    // Diarahkan secara presisi ke berkas panel_admin_crud.html
                     window.location.href = 'panel_admin_crud.html';
                 }
             }));
         });
     </script>
-    <!-- Alpine JS Engine Core -->
     <script src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
 </body>
 </html>
